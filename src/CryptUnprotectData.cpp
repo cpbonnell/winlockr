@@ -86,7 +86,6 @@ List CryptUnprotectData(Rcpp::RawVector pwd, Rcpp::RawVector salt){
 
 
   return List::create(
-    Named("success") = "TRUE",
     Named("unprotected_pwd") = unprot
   );
 }

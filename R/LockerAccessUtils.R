@@ -2,13 +2,13 @@
 
 
 GetLockerPath <- function(){
-  file.path(find.package('winlocker'), 'locker', 'passwordLocker.rds')
+  file.path(find.package('winlockr'), 'locker', 'passwordLocker.rds')
 }
 
 #' Rebuild the password locker from scratch
 CreatePasswordLocker <- function(){
 
-  df <- data_frame(
+  df <- tibble::data_frame(
     username = character(),
     application = character(),
     expiration = character(),
