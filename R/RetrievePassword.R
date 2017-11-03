@@ -28,5 +28,5 @@ RetrievePassword <- function(user, application){
 
   raw.password <- hex_to_raw(creds$password)
   raw.salt <- hex_to_raw(creds$salt)
-  return(as.character(CryptUnprotectData(raw.password, raw.salt)))
+  return(rawToChar(CryptUnprotectData(raw.password, raw.salt)))
 }

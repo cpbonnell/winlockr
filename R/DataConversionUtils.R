@@ -1,5 +1,8 @@
 
-
+#' @useDynLib winlockr
+#' @importFrom Rcpp sourceCpp
+NULL
+## NULL
 
 
 

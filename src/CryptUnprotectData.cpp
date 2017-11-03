@@ -24,13 +24,16 @@ using namespace Rcpp;
 //'
 //' @param pwd The raw bytes of the encrypted password
 //' @param salt The raw bytes of the salt used when the password was encrypted
+//'
+//' @export
 // [[Rcpp::export]]
-List CryptUnprotectData(Rcpp::RawVector pwd, Rcpp::RawVector salt){
+Rcpp::RawVector CryptUnprotectData(Rcpp::RawVector pwd, Rcpp::RawVector salt){
 
   const int MAX_BYTES = 256;
 
   if(pwd.size() > MAX_BYTES || salt.size() > MAX_BYTES){
-    return List::create(Named("ERROR") = "Parameters too long.\n");
+    //return List::create(Named("ERROR") = "Parameters too long.\n");
+    return Rcpp::RawVector();
   }
 
   int pwd_len = 0;
@@ -85,9 +88,11 @@ List CryptUnprotectData(Rcpp::RawVector pwd, Rcpp::RawVector salt){
 
 
 
-  return List::create(
-    Named("unprotected_pwd") = unprot
-  );
+  // return List::create(
+  //   Named("unprotected_pwd") = unprot
+  // );
+
+  return unprot;
 }
 
 

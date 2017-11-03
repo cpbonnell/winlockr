@@ -6,7 +6,7 @@
 using namespace Rcpp;
 
 // CryptProtectData
-List CryptProtectData(Rcpp::RawVector pwd, Rcpp::RawVector salt);
+Rcpp::RawVector CryptProtectData(Rcpp::RawVector pwd, Rcpp::RawVector salt);
 RcppExport SEXP _winlockr_CryptProtectData(SEXP pwdSEXP, SEXP saltSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -18,7 +18,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // CryptUnprotectData
-List CryptUnprotectData(Rcpp::RawVector pwd, Rcpp::RawVector salt);
+Rcpp::RawVector CryptUnprotectData(Rcpp::RawVector pwd, Rcpp::RawVector salt);
 RcppExport SEXP _winlockr_CryptUnprotectData(SEXP pwdSEXP, SEXP saltSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

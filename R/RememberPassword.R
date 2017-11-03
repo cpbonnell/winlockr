@@ -27,9 +27,13 @@ RememberPassword <- function(user, application, expiration = NA){
 
   ## Prompt for the password and
   msg <- 'Please enter your password:'
-  encrypted.pwd <- CryptProtectData(.rs.askForPassword(msg), salt)
+  encrypted.pwd <- CryptProtectData(charToRaw(.rs.askForPassword(msg)), salt)
+
+  ## Put things in the right form to be stored
+  hex.salt <- raw_to_hex(salt)
+  hex.pwd <- raw_to_hex(encrypted.pwd)
 
   #DONE(cpb): finish this function after writing more helper functions
-  StoreEncryptedPassword(user, application, expiration, salt, encrypted.pwd)
+  StoreEncryptedPassword(user, application, expiration, hex.salt, hex.pwd)
   invisible()
 }

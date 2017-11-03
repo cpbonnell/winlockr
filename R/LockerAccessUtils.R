@@ -1,4 +1,4 @@
-
+library(dplyr)
 
 
 GetLockerPath <- function(){
@@ -21,6 +21,8 @@ CreatePasswordLocker <- function(){
 
 #' Remove all passwords in the table that are beyond their expiration date
 PurgeExpiredPasswords <- function(df){
+  require(dplyr)
+  require(lubridate)
   df %>% filter(expiration <= lubridate::now())
 }
 
@@ -31,7 +33,7 @@ ReadPasswordTable <- function(){
     df <- CreatePasswordLocker()
   } else {
     df <- readr::read_rds(GetLockerPath())
-    df <- PurgeExpiredPasswords(df)
+    #df <- PurgeExpiredPasswords(df)
   }
 
   return(df)
@@ -63,18 +65,20 @@ PurgeAllPasswords <- function(username = NULL){
 
 #' Add an encrypted password to the data frame
 StoreEncryptedPassword <- function(username, application, expiration, salt, password){
+  require(tibble)
+  require(dplyr)
 
   pw.locker <- ReadPasswordTable()
 
-  new.row <- list(
-    username = usn,
-    application = apl,
-    expiration = expir,
-    salt = salt,
-    password = password
-  )
+  pw.locker <- pw.locker %>%
+    add_row(
+      username = username,
+      application = application,
+      expiration = expiration,
+      salt = salt,
+      password = password
+    )
 
-  pw.locker <- rbind(pw.locker, new.row)
   WritePasswordTable(pw.locker)
   invisible()
 }
@@ -82,16 +86,14 @@ StoreEncryptedPassword <- function(username, application, expiration, salt, pass
 #' Retrieve an encrypted password from the data frame
 RetrieveEncryptedPassword <- function(username, application){
 
-  pw.locker <- readr::read_rds(GetLockerPath())
-  pw.locker <- PurgeExpiredPasswords(pw.locker)
+  pw.locker <- ReadPasswordTable()
 
-  relevant <- pw.locker %>%
-    filter(username == username, application == application)
+  relevant <- pw.locker %>% filter(username == username, application == application)
 
   if(nrow(relevant) < 1){
     result <- c(password = NA, salt = NA)
   } else {
-    result <- c(
+    result <- lst(
       password = relevant[[1, 'password']],
       salt = relevant[[1, 'salt']]
     )
