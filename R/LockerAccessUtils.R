@@ -1,4 +1,9 @@
-library(dplyr)
+
+#' @importFrom magrittr %>%
+NULL
+# NULL
+
+#library(dplyr)
 
 
 GetLockerPath <- function(){
@@ -21,8 +26,8 @@ CreatePasswordLocker <- function(){
 
 #' Remove all passwords in the table that are beyond their expiration date
 PurgeExpiredPasswords <- function(df){
-  require(dplyr)
-  require(lubridate)
+  #require(dplyr)
+  #require(lubridate)
   df %>% filter(expiration <= lubridate::now())
 }
 

@@ -26,10 +26,10 @@ RememberPassword <- function(user, application, expiration.date = NA, expiration
   ##============================================================
   ## Start by parsing expiration parameters and creating an actual expiration date
 
-  if(!is.na(expiration)){
+  if(!is.na(expiration.date)){
 
     ## First case: the user has given us an actual expiration datetime
-    expiration <- ymd_hms(expiration.date)
+    expiration <- lubridate::ymd_hms(expiration.date)
 
   } else if(!is.na(expiration.duration)){
 
@@ -63,6 +63,12 @@ RememberPassword <- function(user, application, expiration.date = NA, expiration
   ## Now do the actual work of encrypting the password and storing it
 
   ## Generate a salt to be used for the encryption
+  #TODO(cpb): The function below is not available on CRAN, and requires that
+  #   updates to the PKI package be downloaded from github. Since the salt
+  #   does not need to be secret, much less cryptographically random, the
+  #   function should probably be replaced. If a cryptographically secure
+  #   random generator can be found with easier use, then that is probably still
+  #   best.
   salt <- PKI::PKI.random(128)
 
   ## Prompt for the password and

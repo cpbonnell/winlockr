@@ -1,7 +1,7 @@
 Package: winlockr
 Type: Package
 Title: Store sensitive data in a user-specific encrypted locker
-Version: 0.0.0.9004
+Version: 0.0.0.9005
 Date: 2017-10-27
 Author@R: person('Christian', 'Bonnell', email = 'christian.bonnell@gmail.com', role=c('aut', 'cre'))
 Description: This package relies on the Windows Data Protection API to encrypt
@@ -11,7 +11,8 @@ Description: This package relies on the Windows Data Protection API to encrypt
    their next login. This ensures that multiple users on the same machine cannot 
    access each other's sensitive information.
 License: GPL (>= 2)
-Imports: Rcpp (>= 0.12.12)
+Imports: Rcpp (>= 0.12.12),
+    magrittr
 LinkingTo: Rcpp
 RoxygenNote: 6.0.1
 Suggests: testthat
