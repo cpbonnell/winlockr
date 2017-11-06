@@ -17,10 +17,50 @@
 #'
 #' @param user The username associated with the password
 #' @param applicaiton The application that the username and password should be used for
-#' @param expiration Coercible to a datetime object
+#' @param expiration.date Coercible to a datetime object of the form "y-m-d h:m:s"
+#' @param expiration.duration A names list indicating the number of days, hours, and minutes until the password should expire
 #'
 #' @export
-RememberPassword <- function(user, application, expiration = NA){
+RememberPassword <- function(user, application, expiration.date = NA, expiration.duration = NA){
+
+  ##============================================================
+  ## Start by parsing expiration parameters and creating an actual expiration date
+
+  if(!is.na(expiration)){
+
+    ## First case: the user has given us an actual expiration datetime
+    expiration <- ymd_hms(expiration.date)
+
+  } else if(!is.na(expiration.duration)){
+
+    ## Second case: the user has given us a list of time units specifying an
+    ##   amount of time for which the password should be valid.
+    expiration <- lubridate::now()
+
+    if('days' %in% names(expiration.duration)){
+      expiration <- expiration + lubridate::ddays(expiration.duration[['days']])
+    }
+
+    if('hours' %in% names(expiration.duration)){
+      expiration <- expiration + lubridate::dhours(expiration.duration[['hours']])
+    }
+
+    if('minutes' %in% names(expiration.duration)){
+      expiration <- expiration + lubridate::dminutes(expiration.duration[['minutes']])
+    }
+
+  } else {
+
+    ## Third (and final) case: The user has not specified any expiration, so we
+    ##   default to having it expire when the R session ends.
+    expiration <- NA
+  }
+
+
+
+
+  ##============================================================
+  ## Now do the actual work of encrypting the password and storing it
 
   ## Generate a salt to be used for the encryption
   salt <- PKI::PKI.random(128)

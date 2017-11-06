@@ -4,12 +4,15 @@
 \alias{RememberPassword}
 \title{Prompt the user for a password and store it for later use}
 \usage{
-RememberPassword(user, application, expiration = NA)
+RememberPassword(user, application, expiration.date = NA,
+  expiration.duration = NA)
 }
 \arguments{
 \item{user}{The username associated with the password}
 
-\item{expiration}{Coercible to a datetime object}
+\item{expiration.date}{Coercible to a datetime object of the form "y-m-d h:m:s"}
+
+\item{expiration.duration}{A names list indicating the number of days, hours, and minutes until the password should expire}
 
 \item{applicaiton}{The application that the username and password should be used for}
 }
