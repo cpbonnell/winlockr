@@ -10,26 +10,6 @@ GetLockerPath <- function(){
   file.path(find.package('winlockr'), 'locker', 'passwordLocker.rds')
 }
 
-#' Rebuild the password locker from scratch
-CreatePasswordLocker <- function(){
-
-  df <- tibble::data_frame(
-    username = character(),
-    application = character(),
-    expiration = character(),
-    salt = character(),
-    password = character()
-  )
-
-  return(df)
-}
-
-#' Remove all passwords in the table that are beyond their expiration date
-PurgeExpiredPasswords <- function(df){
-  #require(dplyr)
-  #require(lubridate)
-  df %>% filter(expiration <= lubridate::now())
-}
 
 #' Retrieve the password table, purging expired passwords along the way
 ReadPasswordTable <- function(){
@@ -38,7 +18,7 @@ ReadPasswordTable <- function(){
     df <- CreatePasswordLocker()
   } else {
     df <- readr::read_rds(GetLockerPath())
-    #df <- PurgeExpiredPasswords(df)
+    df <- PurgeExpiredPasswords(df)
   }
 
   return(df)
@@ -52,21 +32,6 @@ WritePasswordTable <- function(df){
 
 
 
-
-
-#' Delete all stored
-PurgeAllPasswords <- function(username = NULL){
-
-  if(!is.null(username)){
-    relevant <- ReadPasswordTable() %>%
-      filter(username != username) %>%
-      WritePasswordTable()
-
-  } else{
-    remove.file(GetLockerPath())
-  }
-  invisible()
-}
 
 #' Add an encrypted password to the data frame
 StoreEncryptedPassword <- function(username, application, expiration, salt, password){
