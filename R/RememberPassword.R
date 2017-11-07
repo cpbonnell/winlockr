@@ -21,7 +21,7 @@
 #' @param expiration.duration A names list indicating the number of days, hours, and minutes until the password should expire
 #'
 #' @export
-RememberPassword <- function(user, application, expiration.date = NA, expiration.duration = NA){
+RememberPassword <- function(user, application = NA, expiration.date = NA, expiration.duration = NA){
 
   ##============================================================
   ## Start by parsing expiration parameters and creating an actual expiration date
@@ -79,7 +79,7 @@ RememberPassword <- function(user, application, expiration.date = NA, expiration
   hex.salt <- raw_to_hex(salt)
   hex.pwd <- raw_to_hex(encrypted.pwd)
 
-  #DONE(cpb): finish this function after writing more helper functions
-  StoreEncryptedPassword(user, application, expiration, hex.salt, hex.pwd)
+  #a <- ifelse(is.na(application), 'NA', application)
+  LockerStorePassword(user, application, expiration, hex.salt, hex.pwd)
   invisible()
 }

@@ -3,30 +3,28 @@
 NULL
 # NULL
 
-#library(dplyr)
 
-
-GetLockerPath <- function(){
+LockerGetPath <- function(){
   file.path(find.package('winlockr'), 'locker', 'passwordLocker.rds')
 }
 
 
 #' Retrieve the password table, purging expired passwords along the way
-ReadPasswordTable <- function(){
+LockerReadTable <- function(){
 
-  if(!file.exists(GetLockerPath())){
-    df <- CreatePasswordLocker()
+  if(!file.exists(LockerGetPath())){
+    df <- CreatePasswordTable()
   } else {
-    df <- readr::read_rds(GetLockerPath())
-    df <- PurgeExpiredPasswords(df)
+    df <- readr::read_rds(LockerGetPath())
+    df <- TablePurgeExpiredPasswords(df)
   }
 
   return(df)
 }
 
 #' Write the password table back to file
-WritePasswordTable <- function(df){
-  readr::write_rds(df, GetLockerPath())
+LockerWriteTable <- function(df){
+  readr::write_rds(df, LockerGetPath())
   invisible()
 }
 
@@ -34,29 +32,20 @@ WritePasswordTable <- function(df){
 
 
 #' Add an encrypted password to the data frame
-StoreEncryptedPassword <- function(username, application, expiration, salt, password){
-  require(tibble)
-  require(dplyr)
+LockerStorePassword <- function(username, application, expiration, salt, password){
 
-  pw.locker <- ReadPasswordTable()
+  pw.locker <- LockerReadTable()
 
-  pw.locker <- pw.locker %>%
-    add_row(
-      username = username,
-      application = application,
-      expiration = expiration,
-      salt = salt,
-      password = password
-    )
+  pw.locker <- TableAddPassword(pw.locker, username, application, expiration, salt, password)
 
-  WritePasswordTable(pw.locker)
+  LockerWriteTable(pw.locker)
   invisible()
 }
 
 #' Retrieve an encrypted password from the data frame
-RetrieveEncryptedPassword <- function(username, application){
+LockerGetPassword <- function(username, application){
 
-  pw.locker <- ReadPasswordTable()
+  pw.locker <- LockerReadTable()
 
   relevant <- pw.locker %>% filter(username == username, application == application)
 
@@ -71,3 +60,5 @@ RetrieveEncryptedPassword <- function(username, application){
 
   return(result)
 }
+
+

@@ -17,10 +17,10 @@
 #' @param application A string indicating the application being logged into
 #'
 #' @export
-RetrievePassword <- function(user, application){
+RetrievePassword <- function(user, application = NA){
 
-
-  creds <- RetrieveEncryptedPassword(user, application)
+  #a <- ifelse(is.na(application), 'NA', application)
+  creds <- LockerGetPassword(user, application)
 
   if(is.na(creds$password) || is.na(creds$salt)){
     return(NA)
