@@ -1,4 +1,7 @@
 
+#' @importFrom dplyr filter
+NULL
+# NULL
 
 
 # Rebuild the password table from scratch
@@ -26,26 +29,26 @@ TablePurgeSessionPasswords <- function(df){
 }
 
 # Add a new row tothe password table
-TableAddPassword <- function(df, username, application, expiration, salt, password) {
+TableAddPassword <- function(df, usr, app, expr, slt, pwd) {
 
   ## Handle NA values where needed
-  application <- ifelse(is.na(application), 'default_password', application)
+  apl <- ifelse(is.na(app), 'default_password', app)
 
   ## Check if the username/password combination is already in the table, and if
   ## so then delete it before adding the new record
-  current <- TableGetPassword(df, username, application)
-  if(!is.na(current$username)){
-    df <- TableRemovePassword(df, username, password)
+  current <- TableGetPassword(df, usr, apl)
+  if(!all(is.na(current))){
+    df <- TableRemovePassword(df, usr, apl)
   }
 
   ## Now write the password with associated information to the table and return
   ## the modified data frame.
   result <- df %>% add_row(
-    username = username,
-    application = application,
-    expiration = expiration,
-    salt = salt,
-    password = password
+    username = usr,
+    application = apl,
+    expiration = expr,
+    salt = slt,
+    password = pwd
   )
 
   result
@@ -53,12 +56,12 @@ TableAddPassword <- function(df, username, application, expiration, salt, passwo
 
 # Get a stored password and salt from the table... return NA's for both if
 # they are not in the table
-TableGetPassword <- function(df, username, application){
+TableGetPassword <- function(df, usr, app = NA){
 
   ## Handle NA values where needed
-  application <- ifelse(is.na(application), 'default_password', application)
+  apl <- ifelse(is.na(app), 'default_password', app)
 
-  relevant <- df %>% filter(username == username, application == application)
+  relevant <- df %>% filter(username == usr, application == apl)
 
   if(nrow(relevant) > 0){
     result <- c(
@@ -75,12 +78,12 @@ TableGetPassword <- function(df, username, application){
 # Remove the password associated with a given username and application. Passing
 # NA for the application will remove all entries associated with the username
 # regardless of application.
-TableRemovePassword <- function(df, username, application = NA){
+TableRemovePassword <- function(df, usr, app = NA){
 
-  if(is.na(application)){
-    result <- filter(df, username != username)
+  if(is.na(app)){
+    result <- filter(df, username != usr)
   } else {
-    result <- filter_(df, username != username, !application %in% c('default_password', application))
+    result <- filter(df, username != usr, application != app)
   }
 
   result

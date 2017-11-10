@@ -4,7 +4,7 @@
 \alias{RememberPassword}
 \title{Prompt the user for a password and store it for later use}
 \usage{
-RememberPassword(user, application, expiration.date = NA,
+RememberPassword(user, application = NA, expiration.date = NA,
   expiration.duration = NA)
 }
 \arguments{

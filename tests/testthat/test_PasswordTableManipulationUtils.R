@@ -16,6 +16,30 @@ test_that('Password table creation makes an appropriate table.',{
 })
 
 
+test_that('Looking up passwords works correctly.', {
+
+
+  df <- tibble::tribble(
+    ~username, ~application, ~expiration, ~salt, ~password,
+    'aaa1111', 'some_app', NA, 'aa aa aa', '11 11 11',
+    'aaa1111', 'default_password', NA, 'bb bb bb', '22 22 22'
+  )
+
+
+  expect_equal(TableGetPassword(df, 'aaa1111', 'some_app'),
+               c(password='11 11 11', salt='aa aa aa'))
+
+  expect_equal(TableGetPassword(df, 'aaa1111'),
+               c(password='22 22 22', salt='bb bb bb'))
+
+  expect_true(all(is.na(TableGetPassword(df, 'bbb2222', 'some_app'))))
+
+  expect_true(all(is.na(TableGetPassword(df, 'bbb2222'))))
+})
+
+
+
+
 test_that('Adding passwords to the table works appropriately', {
 
   df <- CreatePasswordTable()

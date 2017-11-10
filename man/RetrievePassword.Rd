@@ -4,7 +4,7 @@
 \alias{RetrievePassword}
 \title{Retrieve a stored password from the locker}
 \usage{
-RetrievePassword(user, application)
+RetrievePassword(user, application = NA)
 }
 \arguments{
 \item{user}{A string indicating the user being logged in}

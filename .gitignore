@@ -4,3 +4,6 @@
 .Ruserdata
 workbench.R
 Read-and-delete-me
+man/
+man/*.Rd
+src/*.dll
