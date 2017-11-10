@@ -1,4 +1,5 @@
 
+#' @importFrom magrittr %>%
 #' @importFrom dplyr filter
 NULL
 # NULL

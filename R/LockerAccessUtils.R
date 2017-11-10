@@ -1,5 +1,6 @@
 
 #' @importFrom magrittr %>%
+#' @importFrom dplyr filter
 NULL
 # NULL
 
@@ -42,23 +43,16 @@ LockerStorePassword <- function(username, application, expiration, salt, passwor
   invisible()
 }
 
+
+
 #' Retrieve an encrypted password from the data frame
 LockerGetPassword <- function(username, application){
 
   pw.locker <- LockerReadTable()
 
-  relevant <- pw.locker %>% filter(username == username, application == application)
+  creds <- TableGetPassword(pw.locker, username, application)
 
-  if(nrow(relevant) < 1){
-    result <- c(password = NA, salt = NA)
-  } else {
-    result <- lst(
-      password = relevant[[1, 'password']],
-      salt = relevant[[1, 'salt']]
-    )
-  }
-
-  return(result)
+  return(creds)
 }
 
 
