@@ -69,14 +69,15 @@ RememberPassword <- function(user, application = NA, expiration.date = NA, expir
   #   function should probably be replaced. If a cryptographically secure
   #   random generator can be found with easier use, then that is probably still
   #   best.
-  salt <- PKI::PKI.random(128)
+  salt <- generate_salt(128)
+  #salt <- PKI::PKI.random(128)
 
   ## Prompt for the password and
   msg <- 'Please enter your password:'
-  encrypted.pwd <- CryptProtectData(charToRaw(.rs.askForPassword(msg)), salt)
+  encrypted.pwd <- CryptProtectData(charToRaw(.rs.askForPassword(msg)), hex_to_raw(salt))
 
   ## Put things in the right form to be stored
-  hex.salt <- raw_to_hex(salt)
+  hex.salt <- salt
   hex.pwd <- raw_to_hex(encrypted.pwd)
 
   #a <- ifelse(is.na(application), 'NA', application)

@@ -6,7 +6,7 @@ NULL
 
 
 LockerGetPath <- function(){
-  file.path(find.package('winlockr'), 'locker', 'passwordLocker.rds')
+  file.path(find.package('winlockr'), 'locker', 'password_locker.rds')
 }
 
 
@@ -17,7 +17,7 @@ LockerReadTable <- function(){
     df <- CreatePasswordTable()
   } else {
     df <- readr::read_rds(LockerGetPath())
-    df <- TablePurgeExpiredPasswords(df)
+    #df <- TablePurgeExpiredPasswords(df)
   }
 
   return(df)

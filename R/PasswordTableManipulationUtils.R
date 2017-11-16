@@ -11,7 +11,7 @@ CreatePasswordTable <- function(){
   df <- tibble::data_frame(
     username = character(),
     application = character(),
-    expiration = character(),
+    expiration = as.POSIXct(character()),
     salt = character(),
     password = character()
   )
@@ -22,7 +22,7 @@ CreatePasswordTable <- function(){
 
 # Remove all passwords in the table that are beyond their expiration date
 TablePurgeExpiredPasswords <- function(df){
-  df %>% filter(lubridate::ymd_hms(expiration) >= lubridate::now())
+  df %>% filter(expiration >= lubridate::now())
 }
 
 TablePurgeSessionPasswords <- function(df){
@@ -34,6 +34,12 @@ TableAddPassword <- function(df, usr, app, expr, slt, pwd) {
 
   ## Handle NA values where needed
   apl <- ifelse(is.na(app), 'default_password', app)
+
+  if(!is.na(expr)){
+    ex <- lubridate::as_datetime(expr)
+  } else {
+    ex <- expr
+  }
 
   ## Check if the username/password combination is already in the table, and if
   ## so then delete it before adding the new record
@@ -47,7 +53,7 @@ TableAddPassword <- function(df, usr, app, expr, slt, pwd) {
   result <- df %>% add_row(
     username = usr,
     application = apl,
-    expiration = expr,
+    expiration = ex,
     salt = slt,
     password = pwd
   )

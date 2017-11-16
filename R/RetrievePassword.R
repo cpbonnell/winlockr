@@ -22,11 +22,11 @@ RetrievePassword <- function(user, application = NA){
   #a <- ifelse(is.na(application), 'NA', application)
   creds <- LockerGetPassword(user, application)
 
-  if(is.na(creds$password) || is.na(creds$salt)){
+  if(any(is.na(creds))){
     return(NA)
   }
 
-  raw.password <- hex_to_raw(creds$password)
-  raw.salt <- hex_to_raw(creds$salt)
+  raw.password <- hex_to_raw(creds[['password']])
+  raw.salt <- hex_to_raw(creds[['salt']])
   return(rawToChar(CryptUnprotectData(raw.password, raw.salt)))
 }
