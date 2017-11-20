@@ -17,7 +17,7 @@ LockerReadTable <- function(){
     df <- CreatePasswordTable()
   } else {
     df <- readr::read_rds(LockerGetPath())
-    #df <- TablePurgeExpiredPasswords(df)
+    df <- TablePurgeExpiredPasswords(df)
   }
 
   return(df)
@@ -53,6 +53,14 @@ LockerGetPassword <- function(username, application){
   creds <- TableGetPassword(pw.locker, username, application)
 
   return(creds)
+}
+
+
+LockerExpirePasswords <- function(obj = NULL){
+  df <- LockerReadTable()
+  df <- TablePurgeExpiredPasswords(df)
+  LockerWriteTable(df)
+  invisible()
 }
 
 

@@ -22,7 +22,7 @@ CreatePasswordTable <- function(){
 
 # Remove all passwords in the table that are beyond their expiration date
 TablePurgeExpiredPasswords <- function(df){
-  df %>% filter(expiration >= lubridate::now())
+  df %>% filter(is.na(expiration) | expiration >= lubridate::now())
 }
 
 TablePurgeSessionPasswords <- function(df){
