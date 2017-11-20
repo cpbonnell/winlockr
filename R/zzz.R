@@ -2,6 +2,10 @@
 
 .winlockr.canary <- new.env()
 
+reg.finalizer(.winlockr.canary, function(e) {
+  message('Object Bye!')
+}, onexit = TRUE)
+
 f <- function(env){
   LockerExpirePasswords()
   print(ls(env))
