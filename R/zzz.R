@@ -10,6 +10,7 @@
   f <- function(env){
     LockerExpirePasswords()
     print(ls(env))
+    env$LockerExpirePasswords()
     message('Bye from namespace finalizer!')
   }
 
