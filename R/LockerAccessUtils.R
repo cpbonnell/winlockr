@@ -59,7 +59,7 @@ LockerGetPassword <- function(username, application){
 }
 
 
-LockerExpirePasswords <- function(obj = NULL){
+LockerExpirePasswords <- function(env = NULL){
   df <- LockerReadTable()
   df <- TablePurgeExpiredPasswords(df)
   LockerWriteTable(df)
