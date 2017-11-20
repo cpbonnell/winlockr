@@ -1,6 +1,6 @@
 
 
-.winlockr.canary <- new.env()
+#.winlockr.canary <- new.env()
 
 #DONE(cpb)<2017-11-20>: use reg.finalizer() to set up code to delete session passwords
 # when the user quits R
@@ -8,10 +8,19 @@
 
   e <- parent.env(environment())
   f <- function(env){
-    LockerExpirePasswords()
-    print(ls(env))
-    env$LockerExpirePasswords()
-    message('Bye from namespace finalizer!')
+    fp <- file.path(find.package('winlockr'), 'locker', 'password_locker.rds')
+
+    if(!file.exists(fp)){
+      return(invisible())
+    } else {
+      df <- readr::read_rds(LockerGetPath())
+      df <- TablePurgeExpiredPasswords(df)
+    }
+
+    df <- df %>% filter(is.na(expiration) | expiration >= lubridate::now())
+
+    readr::write_rds(df, fp)
+    invisible()
   }
 
   reg.finalizer(e, f, onexit = TRUE)
