@@ -30,7 +30,3 @@ CryptUnprotectData <- function(pwd, salt) {
     .Call('_winlockr_CryptUnprotectData', PACKAGE = 'winlockr', pwd, salt)
 }
 
-rcpp_hello_world <- function() {
-    .Call('_winlockr_rcpp_hello_world', PACKAGE = 'winlockr')
-}
-
