@@ -30,12 +30,9 @@ BEGIN_RCPP
 END_RCPP
 }
 
-RcppExport SEXP _winlockr_rcpp_hello_world();
-
 static const R_CallMethodDef CallEntries[] = {
     {"_winlockr_CryptProtectData", (DL_FUNC) &_winlockr_CryptProtectData, 2},
     {"_winlockr_CryptUnprotectData", (DL_FUNC) &_winlockr_CryptUnprotectData, 2},
-    {"_winlockr_rcpp_hello_world",   (DL_FUNC) &_winlockr_rcpp_hello_world,   0},
     {NULL, NULL, 0}
 };
 

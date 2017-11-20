@@ -83,7 +83,7 @@ Rcpp::RawVector CryptUnprotectData(Rcpp::RawVector pwd, Rcpp::RawVector salt){
   }
 
   // Clean up memory (opposite order from CryptProtectData...)
-  SecureZeroMemory(unencrypted_blob.pbData, MAX_BYTES);
+  SecureZeroMemory(unencrypted_blob.pbData, unencrypted_blob.cbData);
   LocalFree(unencrypted_blob.pbData);
 
 
