@@ -6,3 +6,5 @@ workbench.R
 Read-and-delete-me
 man/
 man/*.Rd
+**/*.o
+**/*.dll
