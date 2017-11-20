@@ -11,6 +11,9 @@ LockerGetPath <- function(){
 
 
 #' Retrieve the password table, purging expired passwords along the way
+#'
+#' This function is currently exported for diagnostic purposes only
+#' @export
 LockerReadTable <- function(){
 
   if(!file.exists(LockerGetPath())){

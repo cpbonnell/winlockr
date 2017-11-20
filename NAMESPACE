@@ -2,6 +2,7 @@
 
 export(CryptProtectData)
 export(CryptUnprotectData)
+export(LockerReadTable)
 export(RememberPassword)
 export(RetrievePassword)
 importFrom(Rcpp,sourceCpp)
