@@ -1,7 +1,7 @@
 Package: winlockr
 Type: Package
 Title: Store sensitive data in a user-specific encrypted locker
-Version: 0.0.0.9013
+Version: 0.0.0.9014
 Date: 2017-10-27
 Author@R: person('Christian', 'Bonnell', email = 'christian.bonnell@gmail.com', role=c('aut', 'cre'))
 Description: This package relies on the Windows Data Protection API to encrypt

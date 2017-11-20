@@ -15,6 +15,9 @@
 #' Encryption is done using 3DES with a 128 bit salt to protect password privacy
 #' across multiple systems even if they use the same password.
 #'
+#' If an expiration is not specified, the password will expire at midnight on
+#' the day it was entered.
+#'
 #' @param user The username associated with the password
 #' @param applicaiton The application that the username and password should be used for
 #' @param expiration.date Coercible to a datetime object of the form "y-m-d h:m:s"
@@ -26,14 +29,21 @@ RememberPassword <- function(user, application = NA, expiration.date = NA, expir
   ##============================================================
   ## Start by parsing expiration parameters and creating an actual expiration date
 
-  if(!is.na(expiration.date)){
+  if(!is.na(expiration.date) & expiration.date == 'session'){
+    ## The user wants this to be a session password, so store a NA in the field
+    #expiration <- NA
 
-    ## First case: the user has given us an actual expiration datetime
+    ##... but this feature is not yet implemented, so we need to throw an eror
+    stop('Session passwords are not yet implemented. Please specify an expiration timestamp, or use the default behavior.')
+
+  } else if(!is.na(expiration.date)){
+
+    ## Second case: the user has given us an actual expiration datetime
     expiration <- lubridate::ymd_hms(expiration.date)
 
   } else if(!is.na(expiration.duration)){
 
-    ## Second case: the user has given us a list of time units specifying an
+    ## Third case: the user has given us a list of time units specifying an
     ##   amount of time for which the password should be valid.
     expiration <- lubridate::now()
 
@@ -51,9 +61,12 @@ RememberPassword <- function(user, application = NA, expiration.date = NA, expir
 
   } else {
 
-    ## Third (and final) case: The user has not specified any expiration, so we
-    ##   default to having it expire when the R session ends.
-    expiration <- NA
+    ## Fourth (and final) case: The user has not specified any expiration, so we
+    ##   default to having it expire at midnight
+    expiration <- lubridate::now()
+    hour(expiration) <- 23
+    minute(expiration) <- 59
+    second(expiration) <- 59
   }
 
 
