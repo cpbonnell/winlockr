@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // CryptProtectData
 Rcpp::RawVector CryptProtectData(Rcpp::RawVector pwd, Rcpp::RawVector salt);
-RcppExport SEXP _winlockr_CryptProtectData(SEXP pwdSEXP, SEXP saltSEXP) {
+RcppExport SEXP _winlocker_CryptProtectData(SEXP pwdSEXP, SEXP saltSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -19,7 +19,7 @@ END_RCPP
 }
 // CryptUnprotectData
 Rcpp::RawVector CryptUnprotectData(Rcpp::RawVector pwd, Rcpp::RawVector salt);
-RcppExport SEXP _winlockr_CryptUnprotectData(SEXP pwdSEXP, SEXP saltSEXP) {
+RcppExport SEXP _winlocker_CryptUnprotectData(SEXP pwdSEXP, SEXP saltSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -31,12 +31,12 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_winlockr_CryptProtectData", (DL_FUNC) &_winlockr_CryptProtectData, 2},
-    {"_winlockr_CryptUnprotectData", (DL_FUNC) &_winlockr_CryptUnprotectData, 2},
+    {"_winlocker_CryptProtectData", (DL_FUNC) &_winlocker_CryptProtectData, 2},
+    {"_winlocker_CryptUnprotectData", (DL_FUNC) &_winlocker_CryptUnprotectData, 2},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_winlockr(DllInfo *dll) {
+RcppExport void R_init_winlocker(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

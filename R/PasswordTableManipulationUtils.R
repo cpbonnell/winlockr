@@ -82,6 +82,11 @@ TableGetPassword <- function(df, usr, app = NA){
   result
 }
 
+# Check to see if the password table has an entry for the specified user and app
+TableHasPassword <- function(df, usr, app = NA){
+  !any(is.na(TableGetPassword(df, usr, app)))
+}
+
 # Remove the password associated with a given username and application. Passing
 # NA for the application will remove all entries associated with the username
 # regardless of application.

@@ -25,7 +25,6 @@ using namespace Rcpp;
 //' @param pwd The raw bytes of the encrypted password
 //' @param salt The raw bytes of the salt used when the password was encrypted
 //'
-//' @export
 // [[Rcpp::export]]
 Rcpp::RawVector CryptUnprotectData(Rcpp::RawVector pwd, Rcpp::RawVector salt){
 

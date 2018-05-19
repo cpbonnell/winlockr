@@ -2,9 +2,3 @@
 .Rhistory
 .RData
 .Ruserdata
-workbench.R
-Read-and-delete-me
-man/
-man/*.Rd
-**/*.o
-**/*.dll

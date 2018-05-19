@@ -1,4 +1,4 @@
 library(testthat)
-library(winlockr)
+library(winlocker)
 
-test_check("winlockr")
+test_check("winlocker")

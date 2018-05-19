@@ -17,13 +17,20 @@
 #' @param application A string indicating the application being logged into
 #'
 #' @export
-RetrievePassword <- function(user, application = NA){
+RetrievePassword <- function(user, application = NA, prompt.if.missing = FALSE){
 
-  #a <- ifelse(is.na(application), 'NA', application)
+  on.exit(gc())
   creds <- LockerGetPassword(user, application)
 
   if(any(is.na(creds))){
-    return(NA)
+
+    if(prompt.if.missing){
+      RememberPassword(user, application)
+      creds <- LockerGetPassword(user, application)
+    } else {
+      return(NA)
+    }
+
   }
 
   raw.password <- hex_to_raw(creds[['password']])

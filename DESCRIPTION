@@ -1,19 +1,20 @@
-Package: winlockr
-Type: Package
-Title: Store sensitive data in a user-specific encrypted locker
-Version: 0.0.0.9015
-Date: 2017-10-27
-Author@R: person('Christian', 'Bonnell', email = 'christian.bonnell@gmail.com', role=c('aut', 'cre'))
+Package: winlocker
+Title: What the Package Does (one line, title case)
+Version: 0.0.0.9102
+Authors@R: person('Christian', 'Bonnell', email = 'christian.bonnell@gmail.com', role=c('aut', 'cre'))
 Description: This package relies on the Windows Data Protection API to encrypt
    sensitive information using 3DES. The key for that encryption is itself guarded 
    the operating system in a secure locker that is encrypted when the user logs off, 
    and can only be unencrypted when the user again enters his or her password on
    their next login. This ensures that multiple users on the same machine cannot 
    access each other's sensitive information.
+Depends: R (>= 3.4.2),
+  tibble
 License: GPL (>= 2)
-Imports: Rcpp (>= 0.12.12),
-    magrittr
+Encoding: UTF-8
+LazyData: true
 LinkingTo: Rcpp
-RoxygenNote: 6.0.1
+Imports: Rcpp,
+  magrittr
 Suggests: testthat
-Depends: tibble
+RoxygenNote: 6.0.1

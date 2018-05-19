@@ -6,14 +6,13 @@ NULL
 
 
 LockerGetPath <- function(){
-  file.path(find.package('winlockr'), 'locker', 'password_locker.rds')
+  file.path(find.package('winlocker'), 'locker', 'password_locker.rds')
 }
 
 
 #' Retrieve the password table, purging expired passwords along the way
 #'
 #' This function is currently exported for diagnostic purposes only
-#' @export
 LockerReadTable <- function(){
 
   if(!file.exists(LockerGetPath())){
@@ -58,6 +57,14 @@ LockerGetPassword <- function(username, application){
   return(creds)
 }
 
+
+# See if the table in the locker has a password for the specified user and app
+LockerHasPassword <- function(username, application = NA){
+
+  pw.locker <- LockerReadTable()
+
+  TableHasPassword(username, application)
+}
 
 LockerExpirePasswords <- function(env = NULL){
   df <- LockerReadTable()

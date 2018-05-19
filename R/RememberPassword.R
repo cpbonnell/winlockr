@@ -12,7 +12,7 @@
 #' account. Other users cannot decrypt it even if they have access to the hard
 #' drive with administrator privileges.
 #'
-#' Encryption is done using 3DES with a 128 bit salt to protect password privacy
+#' Encryption is done using AES-256 with a 128 bit salt to protect password privacy
 #' across multiple systems even if they use the same password.
 #'
 #' If an expiration is not specified, the password will expire at midnight on
@@ -24,7 +24,7 @@
 #' @param expiration.duration A names list indicating the number of days, hours, and minutes until the password should expire
 #'
 #' @export
-RememberPassword <- function(user, application = NA, expiration.date = NA, expiration.duration = NA){
+RememberPassword <- function(user, application = NA, expiration.date = NA, expiration.duration = NA, message = NA){
 
   ##============================================================
   ## Start by parsing expiration parameters and creating an actual expiration date
@@ -85,8 +85,14 @@ RememberPassword <- function(user, application = NA, expiration.date = NA, expir
   salt <- generate_salt(128)
   #salt <- PKI::PKI.random(128)
 
-  ## Prompt for the password and
-  msg <- 'Please enter your password:'
+  ## Prompt for the password and ensure that the memory space is cleaned up
+  ## when the function exits.
+  on.exit(gc(), add = TRUE)
+  if(!is.na(message)){
+    msg <- message
+  } else {
+    msg <- 'Please enter your password:'
+  }
   encrypted.pwd <- CryptProtectData(charToRaw(.rs.askForPassword(msg)), hex_to_raw(salt))
 
   ## Put things in the right form to be stored
